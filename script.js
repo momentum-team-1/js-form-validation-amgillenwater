@@ -1,19 +1,23 @@
   
 let form = document.querySelector('#parking-form')
+let formIsValid
+let alphabetic = /^[A-Za-z]+$/
 
 form.addEventListener('submit', function (event) {
-  event.preventDefault()
-//all validation functions will go here
+    formIsValid = true
+    event.preventDefault()
 //need to add something that resets everything to invalid unless there is a value in it, right now just submitting a blank page will return that the name is valid
-  validateName()
+//all validation functions will go here
+    validateName()
 
 })
 
 function validateName () {
 let nameInput = document.querySelector('#name');
 let nameValue = nameInput.value;
+let nameLength = nameValue.length;
 let parentName = nameInput.parentElement;
-    if (nameInput){
+    if (nameLength >= 1 && nameValue.match(alphabetic)){
         console.log("Name is valid")
         parentName.classList.remove('input-invalid')
         parentName.classList.add('input-valid')
@@ -25,4 +29,5 @@ let parentName = nameInput.parentElement;
 
     }
 }
-//need to figure out how to tell it if there is an alphabetical string there, it is valid
+//need to figure out how to tell it the string needs to be alphabetic characters
+
