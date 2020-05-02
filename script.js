@@ -3,6 +3,7 @@ let form = document.querySelector('#parking-form')
 let formIsValid
 let alphabetic = /^[A-Za-z\'\s\.\,]+$/
 //this is an expression that means only letters of the alphabet, declared the alphabetic variable to use as a condition in validation if/else statements, found here: https://www.w3resource.com/javascript/form/all-letters-field.php
+let numeric = 
 
 form.addEventListener('submit', function (event) {
     formIsValid = true
@@ -10,6 +11,7 @@ form.addEventListener('submit', function (event) {
 //need to add something that resets everything to invalid unless there is a value in it, right now just submitting a blank page will return that the name is valid--a note: this might not be a global type of thing but needs to be included in each validation
 //all validation functions will go here
     validateName()
+    validateCarYear()
 
 })
 
@@ -30,4 +32,24 @@ let parentName = nameInput.parentElement;
         formIsValid=false
 
     }
+}
+
+//car functions
+
+function validateCarYear () {
+    let yearInput = document.querySelector('#car-year');
+    let yearValue = yearInput.value;
+    let yearLength = yearValue.length;
+    let yearParent = yearInput.parentElement;
+
+    if (yearLength === 4 && yearValue.match(numeric)) {
+        console.log("Year is valid");
+        yearParent.classList.remove ('input-invalid');
+        yearParent.classList.add ('input-valid');
+    } else {
+        console.log("Year is invalid");
+        yearParent.classList.remove('input-valid');
+        yearParent.classList.add('inputinvalid');
+    }
+//needs more validation for a range of years
 }
