@@ -9,10 +9,12 @@ form.addEventListener('submit', function (event) {
     event.preventDefault()
 //need to add something that resets everything to invalid unless there is a value in it, right now just submitting a blank page will return that the name is valid--a note: this might not be a global type of thing but needs to be included in each validation
 //all validation functions will go here
-    validateName()
-    validateCarYear()
-    validateCarMake()
-    validateCarModel()
+    validateName();
+    validateCarYear();
+    validateCarMake();
+    validateCarModel();
+    validateNumDays ();
+
 })
 
 
@@ -122,3 +124,23 @@ function validateCarModel () {
 //     console.log(dateValue)
 //     console.log(todayDate)
 //     console.log(parkDate)
+
+
+function validateNumDays () {
+    let daysInput = document.querySelector('#days');
+    let daysValue = daysInput.value;
+    let parentName = daysInput.parentElement;
+    let daysAlert = document.createElement("P");
+
+        if (daysValue > 0 && daysValue < 31) {
+            console.log("Days are valid")
+            parentName.classList.add('input-valid')
+        } else {
+            console.log("Days are not valid")
+            parentName.classList.remove('input-valid')
+            parentName.classList.add('input-invalid')
+            formIsValid=false
+            daysAlert.innerText = "You can only reserve parking for up to 30 days."
+            document.getElementById("days-field").appendChild(daysAlert)
+        }
+}
