@@ -18,30 +18,34 @@ form.addEventListener('submit', function (event) {
     validateCarMake();
     validateCarModel();
     validateNumDays();
-    validateCardNumber();
+    validateCC();
     validateDate();
 
 })
 
-
+// function removeErrorMessage () {
+//     let errorDiv = document.querySelector('#errordiv')
+//     errorDiv.innerHTML = ''
+// }
 
 function validateName () {
 let nameInput = document.querySelector('#name');
 let nameValue = nameInput.value;
 let nameLength = nameValue.length;
 let parentName = nameInput.parentElement;
-let nameAlert = document.createElement("P")
+let nameAlert = document.createElement("div")
 //if the string has at least one charcter in it and all of it's characters are alphabetic, the name is valid, if not it is invalid
     if (nameLength >= 1 && nameValue.match(alphabetic)){
         console.log("Name is valid")
         parentName.classList.remove('input-invalid')
         parentName.classList.add('input-valid')
+        nameAlert.textContent = ""
     } else {
         console.log("Name is not valid")
         parentName.classList.remove('input-valid')
         parentName.classList.add('input-invalid')
         formIsValid=false
-        nameAlert.innerText = "Valid name is required"
+        nameAlert.textContent = "Valid name is required"
         document.getElementById("name-field").appendChild(nameAlert)
     }
 }
@@ -52,7 +56,7 @@ function validateCarYear () {
     let yearValue = yearInput.value;
     let yearLength = yearValue.length;
     let yearParent = yearInput.parentElement;
-    let carAlert = document.createElement("P")
+    let carAlert = document.createElement("div")
 //is there a way to have a dynamic date? 2021 model year cars come out soon and the way i have done it would need to be manually updated each year :/
     if (yearLength === 4 && yearValue >= 1900 && yearValue <= 2020) {
         console.log("Year is valid");
@@ -62,7 +66,7 @@ function validateCarYear () {
         console.log("Year is invalid");
         yearParent.classList.remove('input-valid');
         yearParent.classList.add('input-invalid');
-       carAlert.innerText = "Valid car year is required"
+        carAlert.textContent = "Valid car year is required"
         document.getElementById("car-field").appendChild(carAlert)
     }
 //needs more validation for a range of years
@@ -73,7 +77,7 @@ function validateCarMake () {
     let makeValue = makeInput.value;
     let makeLength = makeValue.length;
     let makeParent = makeInput.parentElement;
-    let carAlert = document.createElement("P")
+    let carAlert = document.createElement("div")
 
     if (makeLength >= 1){
         console.log ("Make is valid");
@@ -94,7 +98,7 @@ function validateCarModel () {
     let modelValue = modelInput.value;
     let modelLength = modelValue.length;
     let modelParent = modelInput.parentElement;
-    let carAlert = document.createElement("P")
+    let carAlert = document.createElement("div")
 
     if (modelLength >= 1){
         console.log ("Model is valid");
@@ -117,6 +121,7 @@ function validateDate (){
     dateValue = new Date(dateValue);
     let parkDate = dateInput.valueAsNumber;
     let dateParent = dateInput.parentElement;
+    let dateAlert = document.createElement("div");
 
     if (dateValue >= todayDate){
         console.log("Date is valid")
@@ -130,12 +135,6 @@ function validateDate (){
         dateAlert.innerText = "Pick a date in the future."
         document.getElementById("start-date").appendChild(dateAlert)
     }
-
-    // console.log(dateValue)
-    // console.log(todayDate)
-    // console.log(parkDate)
-
-//if dateValue and todayDate are
 }
 
 
@@ -143,11 +142,12 @@ function validateNumDays () {
     let daysInput = document.querySelector('#days');
     let daysValue = daysInput.value;
     let parentName = daysInput.parentElement;
-    let daysAlert = document.createElement("P");
+    let daysAlert = document.createElement("div");
 
         if (daysValue > 0 && daysValue < 31) {
             console.log("Days are valid")
             parentName.classList.add('input-valid')
+            daysAlert.innerText = ""
         } else {
             console.log("Days are not valid")
             parentName.classList.remove('input-valid')
@@ -158,14 +158,29 @@ function validateNumDays () {
         }
 }
 
-function validateCardNumber(number) {
-    var regex = new RegExp("^[0-9]{16}$");
-    if (!regex.test(number))
-        return false;
-        consolelog("Invalid Card")
+function validateCC(){
+    let CCinput = document.querySelector('#credit-card')
+    let CCValue = CCinput.value
+    let parentCard = CCinput.parentElement
+    let cardAlert = document.createElement("div");
+    let CCregex = new RegExp ('^[0-9]{16}$')
+    document.getElementsByTagName('label')[4].setAttribute('id', 'CC-label')
+    let CCLabel = document.querySelector('#CC-Label')
 
-    return luhnCheck(number);
-}
+    if(CCValue && CCregex.test(CCValue) && luhnCheck(CCValue)){
+        console.log('credit card number of days is valid')
+        parentCard.classList.add('input-valid')
+
+    }else{
+        console.log('credit card number is not valid')
+        parentCard.classList.remove('input-valid')
+        parentCard.classList.add('input-invalid')
+        formIsValid=false
+        cardAlert.innerText = "Please enter a valid credit card number"
+        document.getElementById("credit-card-field").appendChild(cardAlert)
+    }
+   
+} 
 
 function luhnCheck(val) {
     var sum = 0;
