@@ -20,6 +20,7 @@ form.addEventListener('submit', function (event) {
     validateNumDays();
     validateCC();
     validateDate();
+    validateCvv();
 
 })
 
@@ -159,20 +160,20 @@ function validateNumDays () {
 }
 
 function validateCC(){
-    let CCinput = document.querySelector('#credit-card')
-    let CCValue = CCinput.value
-    let parentCard = CCinput.parentElement
+    let cardInput = document.querySelector('#credit-card')
+    let cardValue = cardInput.value
+    let parentCard = cardInput.parentElement
     let cardAlert = document.createElement("div");
-    let CCregex = new RegExp ('^[0-9]{16}$')
+    let cardRegex = new RegExp ('^[0-9]{16}$')
     document.getElementsByTagName('label')[4].setAttribute('id', 'CC-label')
     let CCLabel = document.querySelector('#CC-Label')
 
-    if(CCValue && CCregex.test(CCValue) && luhnCheck(CCValue)){
-        console.log('credit card number of days is valid')
+    if(cardValue && cardRegex.test(cardValue) && luhnCheck(cardValue)){
+        console.log("credit card is valid")
         parentCard.classList.add('input-valid')
 
     }else{
-        console.log('credit card number is not valid')
+        console.log("credit card number is not valid")
         parentCard.classList.remove('input-valid')
         parentCard.classList.add('input-invalid')
         formIsValid=false
@@ -195,4 +196,20 @@ function luhnCheck(val) {
         sum += intVal;
     }
     return (sum % 10) == 0;
+}
+
+function validateCvv(){
+    let cvvInput = document.querySelector('#cvv');
+    let cvvValue = cvvInput.value;
+    let cvvLength = cvvValue.length;
+    let parentCvv = cvvInput.parentElement;
+    let cvvAlert = document.createElement("div")
+
+    if (cvvLength === 3){
+        console.log("Valid CVV")
+        parentCvv.classList.add('input-valid')
+
+    } else {
+        console.log("CVV is invalid")
+    }
 }
