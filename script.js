@@ -12,14 +12,18 @@ form.addEventListener('submit', function (event) {
 //all validation functions will go here
     validateName()
     validateCarYear()
-
+    validateCarMake()
+    validateCarModel()
 })
+
+
 
 function validateName () {
 let nameInput = document.querySelector('#name');
 let nameValue = nameInput.value;
 let nameLength = nameValue.length;
 let parentName = nameInput.parentElement;
+let nameAlert = document.createElement("P")
 //if the string has at least one charcter in it and all of it's characters are alphabetic, the name is valid, if not it is invalid
     if (nameLength >= 1 && nameValue.match(alphabetic)){
         console.log("Name is valid")
@@ -30,7 +34,8 @@ let parentName = nameInput.parentElement;
         parentName.classList.remove('input-valid')
         parentName.classList.add('input-invalid')
         formIsValid=false
-
+        nameAlert.innerText = "Name is required!"
+        document.getElementById("name-field").appendChild(nameAlert)
     }
 }
 
@@ -49,7 +54,43 @@ function validateCarYear () {
     } else {
         console.log("Year is invalid");
         yearParent.classList.remove('input-valid');
-        yearParent.classList.add('inputinvalid');
+        yearParent.classList.add('input-invalid');
     }
 //needs more validation for a range of years
+}
+
+function validateCarMake () {
+    let  makeInput = document.querySelector('#car-make')
+    let makeValue = makeInput.value;
+    let makeLength = makeValue.length;
+    let makeParent = makeInput.parentElement;
+
+    if (makeLength >= 1){
+        console.log ("Make is valid");
+        makeParent.classList.remove('input-invalid');
+        makeParent.classList.add
+        ('input-valid');
+    } else {
+        console.log("Make is invalid");
+        makeParent.classList.remove ('input-valid')
+        makeParent.classList.add('input-invalid')
+    }
+}
+
+function validateCarModel () {
+    let  modelInput = document.querySelector('#car-model')
+    let modelValue = modelInput.value;
+    let modelLength = modelValue.length;
+    let modelParent = modelInput.parentElement;
+
+    if (modelLength >= 1){
+        console.log ("Model is valid");
+        modelParent.classList.remove('input-invalid');
+        modelParent.classList.add
+        ('input-valid');
+    } else {
+        console.log("Model is invalid");
+        modelParent.classList.remove ('input-valid')
+        modelParent.classList.add('input-invalid')
+    }
 }
