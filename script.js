@@ -1,4 +1,8 @@
-  
+//stuck on validating mm-dd-yyy
+//need to figure out how to make error alert box go away when refreshing, right now they just pile up!   
+
+
+
 let form = document.querySelector('#parking-form')
 let formIsValid
 let alphabetic = /^[A-Za-z\'\s\.\,]+$/
@@ -13,7 +17,9 @@ form.addEventListener('submit', function (event) {
     validateCarYear();
     validateCarMake();
     validateCarModel();
-    validateNumDays ();
+    validateNumDays();
+    validateCardNumber();
+    validateDate();
 
 })
 
@@ -104,26 +110,33 @@ function validateCarModel () {
     }
 }
 
-// function validateDate (){
-//     let dateInput = document.querySelector("#start-date");
-//     let dateValue = dateInput.value;
-//     let todayDate = Date.now();
-//     let parkDate = dateInput.valueAsNumber;
+function validateDate (){
+    let dateInput = document.querySelector("#start-date");
+    let dateValue = dateInput.value;
+    let todayDate = new Date();
+    dateValue = new Date(dateValue);
+    let parkDate = dateInput.valueAsNumber;
+    let dateParent = dateInput.parentElement;
 
-//     console.log(dateValue)
-//     console.log(todayDate)
-//     console.log(parkDate)
-// //if dateValue and todayDate are
-// }
+    if (dateValue >= todayDate){
+        console.log("Date is valid")
+        dateParent.classList.remove('input-invalid');
+        dateParent.classList.add
+        ('input-valid');
+    } else {
+        console.log("Date is invalid")
+        dateParent.classList.remove ('input-valid')
+        dateParent.classList.add('input-invalid')
+        dateAlert.innerText = "Pick a date in the future."
+        document.getElementById("start-date").appendChild(dateAlert)
+    }
 
-// let dateInput = document.querySelector("#start-date");
-//     let dateValue = dateInput.value;
-//     let todayDate = Date.now();
-//     let parkDate = dateInput.valueAsNumber;
+    // console.log(dateValue)
+    // console.log(todayDate)
+    // console.log(parkDate)
 
-//     console.log(dateValue)
-//     console.log(todayDate)
-//     console.log(parkDate)
+//if dateValue and todayDate are
+}
 
 
 function validateNumDays () {
@@ -143,4 +156,28 @@ function validateNumDays () {
             daysAlert.innerText = "You can only reserve parking for up to 30 days."
             document.getElementById("days-field").appendChild(daysAlert)
         }
+}
+
+function validateCardNumber(number) {
+    var regex = new RegExp("^[0-9]{16}$");
+    if (!regex.test(number))
+        return false;
+        consolelog("Invalid Card")
+
+    return luhnCheck(number);
+}
+
+function luhnCheck(val) {
+    var sum = 0;
+    for (var i = 0; i < val.length; i++) {
+        var intVal = parseInt(val.substr(i, 1));
+        if (i % 2 == 0) {
+            intVal *= 2;
+            if (intVal > 9) {
+                intVal = 1 + (intVal % 10);
+            }
+        }
+        sum += intVal;
+    }
+    return (sum % 10) == 0;
 }
