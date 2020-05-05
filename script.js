@@ -21,6 +21,7 @@ form.addEventListener('submit', function (event) {
     validateCC();
     validateDate();
     validateCvv();
+    validateExp();
 
 })
 
@@ -124,7 +125,7 @@ function validateDate (){
     let dateParent = dateInput.parentElement;
     let dateAlert = document.createElement("div");
 
-    if (dateValue >= todayDate){
+    if (parkDate >= todayDate){
         console.log("Date is valid")
         dateParent.classList.remove('input-invalid');
         dateParent.classList.add
@@ -207,9 +208,61 @@ function validateCvv(){
 
     if (cvvLength === 3){
         console.log("Valid CVV")
+        parentCvv.classList.remove("input-invalid")
         parentCvv.classList.add('input-valid')
 
     } else {
         console.log("CVV is invalid")
+        parentCvv.classList.remove("input-valid")
+        parentCvv.classList.add('input-invalid')
+        formIsValid=false
+        cvvAlert.innerText = "CVV is invalid"
+        document.getElementById("cvv-field").appendChild(cvvAlert)
+
+    }
+}
+// let dateInput = document.querySelector("#start-date");
+// let dateValue = dateInput.value;
+
+// let daysInput = document.querySelector('#days');
+// let daysValue = daysInput.value;
+
+// let experiment = moment(dateValue).add(daysValue, 'days');
+// console.log(experiment);
+// function cost(){
+//     // let test = new Date();
+//     // document.getElementById("#start-date").innerHTML = test.getDay();
+
+//     // console.log(test)
+//     //use the getDay function to get the index of the day
+//     //use the index of the day to multiply by that day's rate (for instance, 1-5 will be $5 so you can multiply those by 5., for indexes of 0 and 6, multiply by 7)
+//     //Add the results of step 2 together (this will repeat for x number of days in stored in #days (use days.value?)  on the form)
+// }
+function validateExp() {
+    let expInput = document.querySelector("#expiration")
+    let expValue = expInput.value 
+    let parentExp = expInput.parentElement
+    let expAlert = document.createElement("Div")
+
+    let today = new Date();
+    let todayMonth = today.getMonth() + 1;
+    let todayYear = today.getFullYear() % 100;
+
+    let monthValidate = expValue.substring(0, 2);
+    let yearValidate = expValue.substring(3);
+
+    if (yearValidate >= todayYear && monthValidate >= todayMonth) {
+        console.log("Expiration Date valid")
+        parentExp.classList.remove("input-invalid")
+        parentExp.classList.add('input-valid')
+
+    } else {
+        console.log("Expiration Date invalid")
+        parentExp.classList.remove("input-valid")
+        parentExp.classList.add('input-invalid')
+        formIsValid=false
+        expAlert.innerText = "Expiration date is invalid"
+        document.getElementById("expiration-field").appendChild(expAlert)
+        
     }
 }
