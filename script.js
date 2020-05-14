@@ -45,17 +45,14 @@ let parentExpiry = document.getElementById("expiration-field")
 expiryAlert.className = "error"
 parentExpiry.appendChild(expiryAlert);
 
-
-
-// let parentDate = document.getElementById("start-date-field")
-// parentDate.appendChild(alert);
-// alert.innerHTML=""
-//this is an expression that means only letters of the alphabet, declared the alphabetic variable to use as a condition in validation if/else statements, found here: https://www.w3resource.com/javascript/form/all-letters-field.php
-
-
+let costAlert = document.createElement("div");
+let parentCost = document.getElementById("parking-form")
+costAlert.id = "cost-display"
+parentCost.appendChild(costAlert)
 
 form.addEventListener('submit', function (event) {
     formIsValid = true
+    event.preventDefault()
     validateName();
     validateCarYear();
     validateCarMake();
@@ -65,8 +62,7 @@ form.addEventListener('submit', function (event) {
     validateDate();
     validateCvv();
     validateExp();
-    event.preventDefault()
-
+    calcCost ();
 })
 
 function validateName () {
@@ -201,7 +197,6 @@ function validateCC(){
     let parentCard = cardInput.parentElement
     let cardRegex = new RegExp ('^[0-9]{16}$')
     document.getElementsByTagName('label')[4].setAttribute('id', 'CC-label')
-    let CCLabel = document.querySelector('#CC-Label')
 
     if(cardValue && cardRegex.test(cardValue) && luhnCheck(cardValue)){
         console.log("credit card is valid")
@@ -259,7 +254,6 @@ function validateExp() {
     let expInput = document.querySelector("#expiration")
     let expValue = expInput.value 
     let parentExp = expInput.parentElement
-    let expAlert = document.createElement("Div")
 
     let today = new Date();
     let todayMonth = today.getMonth() + 1;
@@ -283,3 +277,30 @@ function validateExp() {
         expiryAlert.innerHTML = "Expiration date is invalid"
     }
 }
+
+function calcCost() {
+    let dateInput = document.querySelector("#start-date")
+    let dateInfo = dateInput.valueAsNumber 
+
+    let day = new Date(dateInfo).getDay();
+    //[Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday]
+    let daysInput = document.querySelector("#days")
+    let daysInfo = daysInput.value
+
+    dateInfo = new Date(dateInfo);
+    let cost = 0
+        for (let i = 0; i < daysInfo; i++) {
+            if (day === 5 || day === 6) {
+                cost += 7;
+            }else {
+                cost += 5;
+            }
+            console.log(cost)
+             day = (day % 7) + 1;
+        }
+        if (cost > 0){ 
+            costAlert.innerHTML = `Your total is $${cost}.`
+        } else {
+            costAlert.innerHTML = ""
+        }
+    }
